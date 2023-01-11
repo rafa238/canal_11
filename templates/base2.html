@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %} {% endblock %}| Canal 11</title>
+    <link rel="icon" href="{{ url_for('static', filename='./images/logo_c11.png') }}">
+      <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+  </head>
+  <body
+    x-data="{ page: 'home', 'darkMode': true, 'stickyMenu': false, 'navigationOpen': false, 'scrollTop': false }"
+    x-init="
+         darkMode = JSON.parse(localStorage.getItem('darkMode'));
+         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+    :class="{'b eh': darkMode === true}"
+  >
+    <!-- ===== Header Start ===== -->
+    <header
+        class="g s r vd ya cj"
+        :class="{ 'hh sm _k dj bl ll' : stickyMenu }"
+        @scroll.window="stickyMenu = (window.pageYOffset > 20) ? true : false"
+    >
+  <div class="bb ze ki xn 2xl:ud-px-0 oo wf yf i">
+    <div class="vd to/4 tc wf yf">
+      <a href="index.html">
+        <img class="om"  src="{{ url_for('static', filename='./images/Logo_Canal_Once.png') }}" width="100" height="100" alt="Logo Light" />
+        <img class="xc nm" src="{{ url_for('static', filename='./images/logo_c11.png') }}" width="100" height="100" alt="Logo Dark" />
+      </a>
+
+      <!-- Hamburger Toggle BTN -->
+      <button class="po rc" @click="navigationOpen = !navigationOpen">
+        <span class="rc i pf re pd">
+          <span class="du-block h q vd yc">
+            <span class="rc i r s eh um tg te rd eb ml jl dl" :class="{ 'ue el': !navigationOpen }"></span>
+            <span class="rc i r s eh um tg te rd eb ml jl fl" :class="{ 'ue qr': !navigationOpen }"></span>
+            <span class="rc i r s eh um tg te rd eb ml jl gl" :class="{ 'ue hl': !navigationOpen }"></span>
+          </span>
+          <span class="du-block h q vd yc lf">
+            <span class="rc eh um tg ml jl el h na r ve yc" :class="{ 'sd dl': !navigationOpen }"></span>
+            <span class="rc eh um tg ml jl qr h s pa vd rd" :class="{ 'sd rr': !navigationOpen }"></span>
+          </span>
+        </span>
+      </button>
+      <!-- Hamburger Toggle BTN -->
+    </div>
+
+    <div
+      class="vd wo/4 sd qo f ho oo wf yf"
+      :class="{ 'd hh rm sr td ud qg ug jc yh': navigationOpen }"
+    >
+      <nav>
+        <ul class="tc _o sf yo cg ep">
+          <li><a href="{{ url_for('index') }}" class="xl" :class="{ 'mk': page === 'home' }">Inicio</a></li>
+          <li><a href="#features" class="xl">Horarios</a></li>
+          <li class="c i" x-data="{ dropdown: false }">
+            <a
+              href="#"
+              class="xl tc wf yf bg"
+              @click.prevent="dropdown = !dropdown"
+              :class="{ 'mk': page === 'blog-grid' || page === 'blog-single' || page === 'signin' || page === 'signup' || page === '404' }"
+            >
+              Filtros
+
+              <svg
+              :class="{ 'wh': dropdown }"
+              class="th mm we fd pf" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+              </svg>
+            </a>
+
+            <!-- Dropdown Start -->
+            <ul class="a" :class="{ 'tc': dropdown }">
+                <li><a href="{{ url_for('programas') }}" class="xl" :class="{ 'mk': page === 'blog-grid' }">Programas</a></li>
+                <li><a href="{{ url_for('programas_conductor') }}" class="xl" :class="{ 'mk': page === 'signin' }">Programas por conductor</a></li>
+                <li><a href="{{ url_for('programas_nacionales') }}" class="xl" :class="{ 'mk': page === 'signup' }">Programas nacionales</a></li>
+
+                <li><a href="404.html" class="xl" :class="{ 'mk': page === '404' }">404</a></li>
+            </ul>
+            <!-- Dropdown End -->
+          </li>
+          <li><a href="index.html#support" class="xl">Support</a></li>
+        </ul>
+      </nav>
+
+      <div class="tc wf ig pb no">
+        <div class="pc h io pa ra" :class="navigationOpen ? '!-ud-visible' : 'd'">
+          <label class="rc ab i">
+            <input type="checkbox" :value="darkMode" @change="darkMode = !darkMode" class="pf vd yc uk h r za ab" />
+            <!-- Icon Sun -->
+            <svg :class="{ 'wn' : page === 'home', 'xh' : page === 'home' && stickyMenu }" class="th om" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.0908 18.6363C10.3549 18.6363 8.69 17.9467 7.46249 16.7192C6.23497 15.4916 5.54537 13.8268 5.54537 12.0908C5.54537 10.3549 6.23497 8.69 7.46249 7.46249C8.69 6.23497 10.3549 5.54537 12.0908 5.54537C13.8268 5.54537 15.4916 6.23497 16.7192 7.46249C17.9467 8.69 18.6363 10.3549 18.6363 12.0908C18.6363 13.8268 17.9467 15.4916 16.7192 16.7192C15.4916 17.9467 13.8268 18.6363 12.0908 18.6363ZM12.0908 16.4545C13.2481 16.4545 14.358 15.9947 15.1764 15.1764C15.9947 14.358 16.4545 13.2481 16.4545 12.0908C16.4545 10.9335 15.9947 9.8236 15.1764 9.00526C14.358 8.18692 13.2481 7.72718 12.0908 7.72718C10.9335 7.72718 9.8236 8.18692 9.00526 9.00526C8.18692 9.8236 7.72718 10.9335 7.72718 12.0908C7.72718 13.2481 8.18692 14.358 9.00526 15.1764C9.8236 15.9947 10.9335 16.4545 12.0908 16.4545ZM10.9999 0.0908203H13.1817V3.36355H10.9999V0.0908203ZM10.9999 20.8181H13.1817V24.0908H10.9999V20.8181ZM2.83446 4.377L4.377 2.83446L6.69082 5.14828L5.14828 6.69082L2.83446 4.37809V4.377ZM17.4908 19.0334L19.0334 17.4908L21.3472 19.8046L19.8046 21.3472L17.4908 19.0334ZM19.8046 2.83337L21.3472 4.377L19.0334 6.69082L17.4908 5.14828L19.8046 2.83446V2.83337ZM5.14828 17.4908L6.69082 19.0334L4.377 21.3472L2.83446 19.8046L5.14828 17.4908ZM24.0908 10.9999V13.1817H20.8181V10.9999H24.0908ZM3.36355 10.9999V13.1817H0.0908203V10.9999H3.36355Z" fill=""/>
+            </svg>
+            <!-- Icon Sun -->
+            <img class="xc nm" src="{{ url_for('static', filename='./images/icon-moon.svg') }}" alt="Moon" />
+          </label>
+        </div>
+
+        <a href="signin.html" :class="{ 'nk yl' : page === 'home', 'ok' : page === 'home' && stickyMenu }" class="ek pk xl">Sign In</a>
+        <a href="signup.html" :class="{ 'hh/[0.15]' : page === 'home', 'sh' : page === 'home' && stickyMenu }" class="lk gh dk rg tc wf xf _l gi hi">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+    <!-- ===== Header End ===== -->
+
+    <main>
+      {% block content %}{% endblock %}
+
+      <!-- ===== CTA End ===== -->
+    </main>
+    <!-- ===== Footer Start ===== -->
+    <footer>
+  <div class="bb ze ki xn 2xl:ud-px-0">
+    <!-- Footer Top -->
+    <div class="ji gp">
+      <div class="tc uf ap gg fp">
+        <div class="animate_top zd/2 to/4">
+          <a href="{{ url_for("index") }}">
+            <img class="om" src="{{ url_for('static', filename='./images/Logo_Canal_Once.png') }}" alt="Logo Light" />
+            <img class="xc nm"  src="{{ url_for('static', filename='./images/Logo_Canal_Once.png') }}" alt="Logo Dark" />
+          </a>
+
+          <p class="lc fb" >Instituto Politécnico Nacional
+            Prolongación Carpio 475, col. Casco de Sto. Tomás, C.P. 11340,
+
+            Ciudad de México
+
+            Contacto con la Audiencia: 55 51 66 40 00.
+
+            Conmutador: 5553561111
+
+            DR © XEIPN Canal Once, Ciudad de México, 2021. Todos los derechos reservados.
+          </p>
+
+          <ul class="tc wf cg">
+            <li>
+              <a href="#">
+                <svg class="vh ul cl il" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_48_1499)">
+                    <path d="M14 13.5H16.5L17.5 9.5H14V7.5C14 6.47 14 5.5 16 5.5H17.5V2.14C17.174 2.097 15.943 2 14.643 2C11.928 2 10 3.657 10 6.7V9.5H7V13.5H10V22H14V13.5Z" fill="" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_48_1499">
+                      <rect width="24" height="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <svg class="vh ul cl il" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_48_1502)">
+                    <path
+                      d="M22.162 5.65593C21.3985 5.99362 20.589 6.2154 19.76 6.31393C20.6337 5.79136 21.2877 4.96894 21.6 3.99993C20.78 4.48793 19.881 4.82993 18.944 5.01493C18.3146 4.34151 17.4803 3.89489 16.5709 3.74451C15.6615 3.59413 14.7279 3.74842 13.9153 4.18338C13.1026 4.61834 12.4564 5.30961 12.0771 6.14972C11.6978 6.98983 11.6067 7.93171 11.818 8.82893C10.1551 8.74558 8.52832 8.31345 7.04328 7.56059C5.55823 6.80773 4.24812 5.75098 3.19799 4.45893C2.82628 5.09738 2.63095 5.82315 2.63199 6.56193C2.63199 8.01193 3.36999 9.29293 4.49199 10.0429C3.828 10.022 3.17862 9.84271 2.59799 9.51993V9.57193C2.59819 10.5376 2.93236 11.4735 3.54384 12.221C4.15532 12.9684 5.00647 13.4814 5.95299 13.6729C5.33661 13.84 4.6903 13.8646 4.06299 13.7449C4.32986 14.5762 4.85 15.3031 5.55058 15.824C6.25117 16.345 7.09712 16.6337 7.96999 16.6499C7.10247 17.3313 6.10917 17.8349 5.04687 18.1321C3.98458 18.4293 2.87412 18.5142 1.77899 18.3819C3.69069 19.6114 5.91609 20.2641 8.18899 20.2619C15.882 20.2619 20.089 13.8889 20.089 8.36193C20.089 8.18193 20.084 7.99993 20.076 7.82193C20.8949 7.2301 21.6016 6.49695 22.163 5.65693L22.162 5.65593Z"
+                      fill=""
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_48_1502">
+                      <rect width="24" height="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="vd ro tc sf rn un gg vn">
+          <div class="animate_top">
+            <h4 class="kk wm tj ec">Links</h4>
+
+            <ul>
+                <li><a href="#" class="sc xl vb">Noticias</a></li>
+                <li><a href="#" class="sc xl vb">Once Ninos</a></li>
+                <li><a href="#" class="sc xl vb">Contacto</a></li>
+                <li><a href="#" class="sc xl vb">Nosotros</a></li>
+                <li><a href="#" class="sc xl vb">Patrocinios</a></li>
+                <li><a href="#" class="sc xl vb">Once Digital</a></li>
+            </ul>
+          </div>
+
+          <div class="animate_top">
+            <h4 class="kk wm tj ec">Politicas</h4>
+
+            <ul>
+              <li><a href="#" class="sc xl vb">Politicas</a></li>
+              <li><a href="#" class="sc xl vb">Privacidad</a></li>
+              <li><a href="#" class="sc xl vb">Acerca de nosotros</a></li>
+              <li><a href="#" class="sc xl vb">Funcionamiento</a></li>
+            </ul>
+          </div>
+            <div class="animate_top"><ul></ul></div>
+            <div class="animate_top"><ul></ul></div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer Top -->
+
+    <!-- Footer Bottom -->
+    <div class="bh ch pm tc uf sf yo wf xf ap cg fp bj">
+      <div class="animate_top">
+        <ul class="tc wf gg">
+          <li><a href="#" class="xl">English</a></li>
+          <li><a href="#" class="xl">Privacy Policy</a></li>
+          <li><a href="#" class="xl">Support</a></li>
+        </ul>
+      </div>
+
+      <div class="animate_top">
+        <p>&copy; 2025 Base. All rights reserved</p>
+      </div>
+    </div>
+    <!-- Footer Bottom -->
+  </div>
+</footer>
+
+    <!-- ===== Footer End ===== -->
+
+    <!-- ====== Back To Top Start ===== -->
+    <button
+      class="xc wf xf ie ld vg sr gh tr g sa ta _a"
+      @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+      @scroll.window="scrollTop = (window.pageYOffset > 50) ? true : false"
+      :class="{ 'uc' : scrollTop }"
+    >
+      <svg class="uh se qd" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" />
+      </svg>
+    </button>
+
+    <!-- ====== Back To Top End ===== -->
+
+    {% block extra %} {% endblock %}
+    <script defer src="{{ url_for('static', filename='bundle.js') }}"></script>
+  </body>
+</html>
